@@ -34,47 +34,47 @@
 		props.scrollYOffset = ko.observable(0);
 
 		// calculations
-		props.numColsPerPage = ko.computed(function() {
+		props.numColsPerPage = ko.pureComputed(function() {
 			var viewportWidth = parseInt(props.viewportWidth()),
 				itemWidth = parseInt(props.itemWidth()) || -1;
 			return Math.max(Math.floor(viewportWidth / itemWidth), 0);
 		});
-		props.numRowsPerPage = ko.computed(function() {
+		props.numRowsPerPage = ko.pureComputed(function() {
 			var viewportHeight = parseInt(props.viewportHeight()),
 				itemHeight = parseInt(props.itemHeight()) || -1;
 			return Math.max(Math.ceil(viewportHeight / itemHeight), 0);
 		});
-		props.numItemsPerPage = ko.computed(function() {
+		props.numItemsPerPage = ko.pureComputed(function() {
 			var numColsPerPage = parseInt(props.numColsPerPage()),
 				numRowsPerPage = parseInt(props.numRowsPerPage());
 			return numColsPerPage * numRowsPerPage;
 		});
-		props.numItemsPadding = ko.computed(function() {
+		props.numItemsPadding = ko.pureComputed(function() {
 			var numItemsPerPage = props.numItemsPerPage(),
 				numPagesPadding = props.numPagesPadding(),
 				numColsPerPage = props.numColsPerPage();
 			return Math.max(Math.floor(numItemsPerPage * numPagesPadding / numColsPerPage) * numColsPerPage, 0);
 		});
-		props.firstVisibleIndex = ko.computed(function() {
+		props.firstVisibleIndex = ko.pureComputed(function() {
 			var scrollY = parseInt(props.scrollY()),
 				scrollYOffset = parseInt(props.scrollYOffset()),
 				itemHeight = parseInt(props.itemHeight()) || -1,
 				numColsPerPage = props.numColsPerPage();
 			return Math.max(Math.floor((scrollY - scrollYOffset) / itemHeight) * numColsPerPage, 0);
 		});
-		props.lastVisibleIndex = ko.computed(function() {
+		props.lastVisibleIndex = ko.pureComputed(function() {
 			return props.firstVisibleIndex() + props.numItemsPerPage() - 1;
 		});
-		props.firstHiddenIndex = ko.computed(function() {
+		props.firstHiddenIndex = ko.pureComputed(function() {
 			return Math.max(props.firstVisibleIndex() - 1 - props.numItemsPadding(), 0);
 		});
-		props.lastHiddenIndex = ko.computed(function() {
+		props.lastHiddenIndex = ko.pureComputed(function() {
 			return Math.min(props.lastVisibleIndex() + 1 + props.numItemsPadding(), target().length);
 		});
-		props.heightBefore = ko.computed(function() {
+		props.heightBefore = ko.pureComputed(function() {
 			return Math.max(props.firstHiddenIndex() / props.numColsPerPage() * props.itemHeight(), 0);
 		});
-		props.heightAfter = ko.computed(function() {
+		props.heightAfter = ko.pureComputed(function() {
 			return Math.max(((target().length - 1 - props.lastHiddenIndex()) / props.numColsPerPage()) * props.itemHeight(), 0);
 		});
 
